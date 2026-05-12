@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name" value="<?php if(isset($_POST['name'])) echo htmlspecialchars($_POST['name']); ?>"><br><br>
+ Email: <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo htmlspecialchars($_POST['email']); ?>"><br><br>
+
+ Gender:
+ <input type="radio" name="gender" value="Male" <?php if(isset($_POST['gender']) && $_POST['gender']=="Male") echo "checked"; ?>> Male
+ <input type="radio" name="gender" value="Female" <?php if(isset($_POST['gender']) && $_POST['gender']=="Female") echo "checked"; ?>> Female
+ <br><br>
+
+ Course:
+ <select name="course">
+   <option value="">--Select Course--</option>
+   <option value="BSIT" <?php if(isset($_POST['course']) && $_POST['course']=="BSIT") echo "selected"; ?>>BSIT</option>
+   <option value="BSCS" <?php if(isset($_POST['course']) && $_POST['course']=="BSCS") echo "selected"; ?>>BSCS</option>
+   <option value="BSIS" <?php if(isset($_POST['course']) && $_POST['course']=="BSIS") echo "selected"; ?>>BSIS</option>
+   <option value="BSECE" <?php if(isset($_POST['course']) && $_POST['course']=="BSECE") echo "selected"; ?>>BSECE</option>
+ </select>
+ <br><br>
+
+ Message:<br>
+ <textarea name="message" rows="5" cols="40"><?php if(isset($_POST['message'])) echo htmlspecialchars($_POST['message']); ?></textarea><br><br>
+
+ <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $gender = isset($_POST["gender"]) ? htmlspecialchars($_POST["gender"]) : "";
+    $course = htmlspecialchars(trim($_POST["course"]));
+    $message = htmlspecialchars(trim($_POST["message"]));
+
+    if (empty($name) || empty($email) || empty($gender) || empty($course) || empty($message)) {
+        echo "⚠️ All fields are required!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "⚠️ Invalid email format!";
+    } else {
+        echo "<h3>Form Submission Result</h3>";
+        echo "Name: " . $name . "<br>";
+        echo "Email: " . $email . "<br>";
+        echo "Gender: " . $gender . "<br>";
+        echo "Course: " . $course . "<br>";
+        echo "Message:<br>" . nl2br($message);
+    }
+}
+?>
+
+</body>
+</html>
