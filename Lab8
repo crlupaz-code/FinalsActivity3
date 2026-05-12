@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="">
+ Name: <input type="text" name="name"><br><br>
+ Email: <input type="email" name="email"><br><br>
+
+ Course:
+ <select name="course">
+   <option value="">--Select Course--</option>
+   <option value="BSIT">BSIT</option>
+   <option value="BSCS">BSCS</option>
+   <option value="BSIS">BSIS</option>
+   <option value="BSECE">BSECE</option>
+ </select>
+ <br><br>
+
+ <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST["name"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $course = htmlspecialchars($_POST["course"]);
+
+    if (empty($name) || empty($email) || empty($course)) {
+        echo "⚠️ All fields (Name, Email, Course) are required!";
+    } else {
+        echo "Hello, " . $name . "<br>";
+        echo "Your email is: " . $email . "<br>";
+        echo "Selected course: " . $course;
+    }
+}
+?>
+
+</body>
+</html>
