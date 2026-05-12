@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name"><br><br>
+ Email: <input type="email" name="email"><br><br>
+
+ Hobbies:<br>
+ <input type="checkbox" name="hobbies[]" value="Reading"> Reading<br>
+ <input type="checkbox" name="hobbies[]" value="Gaming"> Gaming<br>
+ <input type="checkbox" name="hobbies[]" value="Sports"> Sports<br>
+ <input type="checkbox" name="hobbies[]" value="Music"> Music<br>
+ <br>
+
+ <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $hobbies = isset($_POST["hobbies"]) ? $_POST["hobbies"] : [];
+
+    if (empty($name) || empty($email) || empty($hobbies)) {
+        echo "⚠️ All fields (Name, Email, Hobbies) are required!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "⚠️ Invalid email format!";
+    } else {
+        echo "<h3>Form Submission Result</h3>";
+        echo "Name: " . $name . "<br>";
+        echo "Email: " . $email . "<br>";
+        echo "Hobbies: " . implode(", ", array_map("htmlspecialchars", $hobbies));
+    }
+}
+?>
+
+</body>
+</html>
