@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name"><br><br>
+ Email: <input type="email" name="email"><br><br>
+ Password: <input type="password" name="password"><br><br>
+ <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $password = trim($_POST["password"]); // raw password, pero hindi ipapakita
+
+    if (empty($name) || empty($email) || empty($password)) {
+        echo "⚠️ All fields (Name, Email, Password) are required!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "⚠️ Invalid email format!";
+    } else {
+        echo "<h3>Form Submission Result</h3>";
+        echo "Name: " . $name . "<br>";
+        echo "Email: " . $email . "<br>";
+        echo "Password: (hidden for security)";
+    }
+}
+?>
+
+</body>
+</html>
