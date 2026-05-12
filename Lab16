@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name"><br><br>
+ Email: <input type="email" name="email"><br><br>
+ Age: <input type="number" name="age" min="1" max="120"><br><br>
+ <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $age = trim($_POST["age"]);
+
+    if (empty($name) || empty($email) || empty($age)) {
+        echo "⚠️ All fields (Name, Email, Age) are required!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "⚠️ Invalid email format!";
+    } elseif (!is_numeric($age)) {
+        echo "⚠️ Age must be a number!";
+    } elseif ($age < 1 || $age > 120) {
+        echo "⚠️ Age must be between 1 and 120!";
+    } else {
+        echo "<h3>Form Submission Result</h3>";
+        echo "Name: " . $name . "<br>";
+        echo "Email: " . $email . "<br>";
+        echo "Age: " . $age;
+    }
+}
+?>
+
+</body>
+</html>
