@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name"><br><br>
+ Email: <input type="email" name="email"><br><br>
+ <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+
+    if (empty($name) || empty($email)) {
+        echo "⚠️ Both Name and Email are required!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "⚠️ Invalid email format!";
+    } else {
+        echo "Hello, " . $name . "<br>";
+        echo "Your email is: " . $email;
+    }
+}
+?>
+
+</body>
+</html>
