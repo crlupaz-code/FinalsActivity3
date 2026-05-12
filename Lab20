@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Student Registration Form</h2>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name" required><br><br>
+ Email: <input type="email" name="email" required><br><br>
+
+ Gender:
+ <input type="radio" name="gender" value="Male"> Male
+ <input type="radio" name="gender" value="Female"> Female
+ <br><br>
+
+ Course:
+ <select name="course" required>
+   <option value="">--Select Course--</option>
+   <option value="BSIT">BSIT</option>
+   <option value="BSCS">BSCS</option>
+   <option value="BSIS">BSIS</option>
+   <option value="BSECE">BSECE</option>
+ </select>
+ <br><br>
+
+ Hobbies:<br>
+ <input type="checkbox" name="hobbies[]" value="Reading"> Reading<br>
+ <input type="checkbox" name="hobbies[]" value="Gaming"> Gaming<br>
+ <input type="checkbox" name="hobbies[]" value="Sports"> Sports<br>
+ <input type="checkbox" name="hobbies[]" value="Music"> Music<br>
+ <br>
+
+ Message:<br>
+ <textarea name="message" rows="5" cols="40" required></textarea><br><br>
+
+ <input type="submit" value="Register">
+ <input type="reset" value="Reset">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize inputs
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $gender = isset($_POST["gender"]) ? htmlspecialchars($_POST["gender"]) : "";
+    $course = htmlspecialchars(trim($_POST["course"]));
+    $message = htmlspecialchars(trim($_POST["message"]));
+    $hobbies = isset($_POST["hobbies"]) ? array_map("htmlspecialchars", $_POST["hobbies"]) : [];
+
+    if (empty($name) || empty($email) || empty($gender) || empty($course) || empty($message) || empty($hobbies)) {
+        echo "⚠️ All fields are required!";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "⚠️ Invalid email format!";
+    } else {
+        // Clean output
+        echo "<h3>Registration Successful</h3>";
+        echo "Name: " . $name . "<br>";
+        echo "Email: " . $email . "<br>";
+        echo "Gender: " . $gender . "<br>";
+        echo "Course: " . $course . "<br>";
+        echo "Hobbies: " . implode(", ", $hobbies) . "<br>";
+        echo "Message:<br>" . nl2br($message);
+    }
+}
+?>
+
+</body>
+</html>
