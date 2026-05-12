@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+ Name: <input type="text" name="name" required><br><br>
+ Email: <input type="email" name="email" required><br><br>
+ Age: <input type="number" name="age" min="1" max="120" required><br><br>
+ <input type="submit" value="Submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $age = trim($_POST["age"]);
+
+    echo "<h3>Form Submission Result</h3>";
+    echo "Name: " . $name . "<br>";
+    echo "Email: " . $email . "<br>";
+    echo "Age: " . $age;
+}
+?>
+
+</body>
+</html>
